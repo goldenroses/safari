@@ -4,6 +4,7 @@ import co.nyenjes.safari.place.model.Place
 import co.nyenjes.safari.place.repository.PlaceRepository
 import com.google.gson.Gson
 import mu.KotlinLogging
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,5 +28,20 @@ class PlaceController(private val placeRepository: PlaceRepository) {
 
 
         return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/batch")
+    fun createBatchPlace(@Valid @RequestBody request: List<Place>): ArrayList<ResponseEntity<Place>>? {
+
+        val responses: ArrayList<ResponseEntity<Place>> = ArrayList()
+        request.forEach { place ->
+            val jsonRequest = Gson().toJson(place)
+            logger.info { "createBatchPlace : ${jsonRequest}" }
+            val response = placeRepository.save(place)
+            responses.add(ResponseEntity.ok(response))
+        }
+
+        return responses
+
     }
 }
