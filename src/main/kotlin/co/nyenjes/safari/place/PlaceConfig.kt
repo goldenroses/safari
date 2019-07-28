@@ -1,5 +1,6 @@
 package co.nyenjes.safari.place
 
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
+private val logger = KotlinLogging.logger {}
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(transactionManagerRef = "safariTransactionManager", basePackages = arrayOf("co.nyenjes.safari.place.repository"), entityManagerFactoryRef = "safariEntityManagerFactory")
@@ -22,6 +25,7 @@ class PlaceConfig {
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
+        logger.info { "-----------Creating dataSource()  : " }
         return DataSourceBuilder.create().build()
     }
 
