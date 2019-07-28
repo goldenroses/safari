@@ -1,1 +1,1 @@
-web: java -jar target/co.nyenjes-1.0-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar  build/libs/co.nyenjes-1.0-SNAPSHOT.jar
