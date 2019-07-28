@@ -1,5 +1,6 @@
 package co.nyenjes.safari.place
 
+import com.zaxxer.hikari.HikariConfig
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -25,8 +26,9 @@ class PlaceConfig {
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-        logger.info { "-----------Creating dataSource()  : " }
-        return DataSourceBuilder.create().build()
+        val dataSource = DataSourceBuilder.create()
+        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
+        return ds
     }
 
     @Bean(name = arrayOf("safariEntityManagerFactory"))
