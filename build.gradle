@@ -33,6 +33,10 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-test'
     compile 'org.jetbrains.kotlin:kotlin-reflect'
+    
+    //postgres
+    compile 'postgresql:postgresql:9.1-901-1.jdbc4'
+
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
