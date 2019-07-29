@@ -26,9 +26,9 @@ class PlaceConfig {
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-        val dataSource = DataSourceBuilder.create()
-        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
-        return ds
+        val dataSource = DataSourceBuilder.create().build()
+//        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
+        return dataSource
     }
 
     @Bean(name = arrayOf("safariEntityManagerFactory"))
