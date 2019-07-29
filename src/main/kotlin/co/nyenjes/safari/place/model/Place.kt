@@ -5,7 +5,7 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(schema = "safari", name = "place")
+@Table(name = "place")
 class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
     @JsonProperty("title") val title: String? = null,
