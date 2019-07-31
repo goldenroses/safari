@@ -8,6 +8,9 @@ tmp
 dist
 bin
 build/*
+application.pid
+schema.sql
+.gradle/4.10.3/*
 .idea/*
 .gradle/*
 /.idea
