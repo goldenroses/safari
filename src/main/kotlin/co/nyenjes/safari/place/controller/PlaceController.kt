@@ -6,10 +6,7 @@ import com.google.gson.Gson
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 
@@ -18,6 +15,9 @@ private val logger = KotlinLogging.logger {}
 @RestController
 @RequestMapping("/places")
 class PlaceController(private val placeRepository: PlaceRepository) {
+
+    @GetMapping
+    fun getAllPlaces(): List<Place> = placeRepository.findAll()
 
     @PostMapping
     fun createPlace(@Valid @RequestBody request: Place): ResponseEntity<Place> {
@@ -43,5 +43,13 @@ class PlaceController(private val placeRepository: PlaceRepository) {
 
         return responses
 
+    }
+
+    @DeleteMapping
+    fun purgePlace(): ResponseEntity<Unit> {
+        logger.info { "purgePlace" }
+        placeRepository.resetPrimaryKey()
+        val response = placeRepository.deleteAll()
+        return ResponseEntity.noContent().build()
     }
 }
