@@ -9,11 +9,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
-
 private val logger = KotlinLogging.logger {}
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping("/place")
 class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping
@@ -21,7 +20,6 @@ class PlaceController(private val placeRepository: PlaceRepository) {
 
     @PostMapping
     fun createPlace(@Valid @RequestBody request: Place): ResponseEntity<Place> {
-
         val jsonRequest = Gson().toJson(request)
         logger.info { "createPlace : ${jsonRequest}" }
         val response = placeRepository.save(request)

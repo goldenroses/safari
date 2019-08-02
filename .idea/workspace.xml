@@ -7,10 +7,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/controller/PlaceController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/controller/PlaceController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/model/Category.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/model/Category.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/model/Place.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/co/nyenjes/safari/place/model/Place.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,18 +52,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>dataSource</find>
-      <find>logger</find>
-      <find>hib</find>
-      <find>safari</find>
-      <find>qu</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>spring</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -101,8 +89,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="co.nyenjes.safari.place.repository" />
       <recent name="co.nyenjes.safari.place.model" />
+      <recent name="co.nyenjes.safari.place.repository" />
       <recent name="co.nyenjes.safari.repository" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
