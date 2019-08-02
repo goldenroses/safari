@@ -25,8 +25,6 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         val jsonRequest = Gson().toJson(request)
         logger.info { "createPlace : ${jsonRequest}" }
         val response = placeRepository.save(request)
-
-
         return ResponseEntity.ok(response)
     }
 
@@ -42,7 +40,6 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         }
 
         return responses
-
     }
 
     @DeleteMapping
