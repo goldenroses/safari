@@ -5,9 +5,11 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "category")
-class Category (
+@Table(name = "review")
+class Review (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
-    @JsonProperty("name") val title: String? = null,
-    @JsonProperty("description") val description: String? = null
+    @JsonProperty("rating") val title: String? = null,
+    @JsonProperty("place_id") val placeId: Int? = null,
+    @JsonProperty("user_id") val userId: Int? = null,
+    @JsonProperty("comment") val comment: String? = null
 )
