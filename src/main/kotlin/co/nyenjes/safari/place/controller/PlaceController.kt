@@ -22,6 +22,13 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     @GetMapping
     fun getAllPlaces(): List<Place> = placeRepository.findAll()
 
+    @GetMapping("/{id}")
+    fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {
+        return placeRepository.findById(id).map {place ->
+            ResponseEntity.ok(place)
+        }.orElse(ResponseEntity.notFound().build())
+    }
+
     @PostMapping
     fun createPlace(@Valid @RequestBody request: Place): ResponseEntity<Place> {
         val jsonRequest = Gson().toJson(request)
