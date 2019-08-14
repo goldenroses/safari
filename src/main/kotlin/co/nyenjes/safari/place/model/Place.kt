@@ -10,6 +10,7 @@ class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
     @JsonProperty("title") val title: String? = null,
     @JsonProperty("description") val description: String? = null,
+    @JsonProperty("card_image") val cardImage: String? = null,
     @JsonProperty("image_url") val imageUrl: String? = null,
     @JsonProperty("content") val content: String? = null,
     @JsonProperty("category_id") val categoryId: Int? = null

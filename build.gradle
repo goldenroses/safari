@@ -37,6 +37,10 @@ dependencies {
     //postgres
     compile 'org.postgresql:postgresql:42.2.6'
 
+    //thymeleaf
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:2.1.7.RELEASE'
+
+
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
