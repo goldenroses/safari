@@ -12,12 +12,16 @@ import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
 private val logger = KotlinLogging.logger {}
 
 @Configuration
+@EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(transactionManagerRef = "safariTransactionManager", basePackages = arrayOf("co.nyenjes.safari.place.repository"), entityManagerFactoryRef = "safariEntityManagerFactory")
 class PlaceConfig {
@@ -41,5 +45,14 @@ class PlaceConfig {
     fun safariTransactionManager(
             @Qualifier("safariEntityManagerFactory") safariEntityManagerFactory: EntityManagerFactory): PlatformTransactionManager {
         return JpaTransactionManager(safariEntityManagerFactory)
+    }
+
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry?) {
+                registry!!.addMapping("/**").allowedOrigins("*")
+            }
+        }
     }
 }
