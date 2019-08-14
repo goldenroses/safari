@@ -9,6 +9,9 @@ import java.util.*
 import javax.annotation.PostConstruct
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+
+
 
 @EntityScan("co.nyenjes.safari.*")
 @SpringBootApplication
@@ -19,15 +22,14 @@ class SafariApp
         val springApplication = SpringApplication(SafariApp::class.java)
         springApplication.addListeners(ApplicationPidFileWriter())     // register PID write to spring boot. It will write PID to file
         springApplication.run(*args)
-
+        corsConfigurer()
     }
 
 @Bean
-fun configurer(): WebMvcConfigurer {
+fun corsConfigurer(): WebMvcConfigurer {
     return object : WebMvcConfigurer {
         override fun addCorsMappings(registry: CorsRegistry?) {
-            registry!!.addMapping("/*")
-                .allowedOrigins("*")
+            registry!!.addMapping("/**").allowedOrigins("*")
         }
     }
 }
