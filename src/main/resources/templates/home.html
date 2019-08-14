@@ -1,0 +1,34 @@
+<html>
+<head><title>Home Page</title></head>
+<body>
+<h1>Hello !</h1>
+<p>Welcome to <span text="${appName}">Our App</span></p>
+
+<div class="container">
+    <h1>Customer Table</h1>
+    <div class="row col-md-7 table-responsive">
+        <table id="customerTable" class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Street</th>
+                <th>Postcode</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr each="customer, rowStat: ${customers}"
+                style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                <td text="${customer.id}">1</td>
+                <td text="${customer.name}">Jack</td>
+                <td text="${customer.age}">23</td>
+                <td text="${customer.address.street}">AVE N</td>
+                <td text="${customer.address.postcode}">77587</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

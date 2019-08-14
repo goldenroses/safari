@@ -11,11 +11,16 @@ import org.springframework.transaction.annotation.Transactional
 interface PlaceRepository: JpaRepository<Place, Long> {
     @Modifying
     @Transactional
-    @Query("ALTER TABLE Place AUTO_INCREMENT=1", nativeQuery = true)
+    @Query("ALTER TABLE place AUTO_INCREMENT=1", nativeQuery = true)
     fun resetPrimaryKey()
 
     @Modifying
     @Transactional
     @Query("update Place p set p.imageUrl = ?2 where p.id = ?1")
     fun updateImageUrlPlace(placeId: Long?, imageUrl: String?): Int
+
+    @Modifying
+    @Transactional
+    @Query("update Place p set p.cardImage = ?2 where p.id = ?1")
+    fun updateCardImageUrlPlace(placeId: Long?, imageUrl: String?): Int
 }
