@@ -5,8 +5,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.amazonaws.services.s3.model.Bucket
-import com.amazonaws.services.s3.model.GetObjectRequest
+import com.amazonaws.services.s3.model.*
 import com.google.gson.Gson
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,8 +26,8 @@ private val logger = KotlinLogging.logger {}
 class AwsController {
 
     final val credentials: AWSCredentials = BasicAWSCredentials(
-        System.getenv("AWS_ACCESS_KEY_ID"),
-        System.getenv("AWS_SECRET_ACCESS_KEY")
+        System.getenv("aws-access-key-id"),
+        System.getenv("aws-secret-access-key")
     )
     var s3client = AmazonS3ClientBuilder
         .standard()
@@ -46,7 +45,6 @@ class AwsController {
             }
         } catch (e: Exception) {
             logger.debug { "Exception caught: ${e}" }
-
         }
         return buckets
     }
@@ -61,5 +59,15 @@ class AwsController {
         val content = reader.readText()
 
        return Gson().toJson(content)
+    }
+
+    @GetMapping("/buckets/bucketName/{bucketName}/folderName/{folderName}")
+    fun getImagesInFolder(@PathVariable bucketName: String,@PathVariable folderName: String): MutableSet<S3ObjectSummary> {
+        val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName).withPrefix(folderName + "/")
+
+        val s3object = s3client.listObjects(listObjectsInBucket)
+        logger.debug {  "getContentType : ${s3object}"}
+
+        return s3object.objectSummaries.toMutableSet()
     }
 }
