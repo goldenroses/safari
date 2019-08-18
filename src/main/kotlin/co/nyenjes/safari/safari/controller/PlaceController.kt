@@ -1,13 +1,17 @@
 package co.nyenjes.safari.safari.controller
 
 import co.nyenjes.safari.safari.model.Place
+import co.nyenjes.safari.safari.model.requests.ImageRequest
 import co.nyenjes.safari.safari.repository.PlaceRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import mu.KotlinLogging
 import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.*
+import org.springframework.http.ResponseEntity.noContent
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import java.util.concurrent.ExecutionException
 import javax.validation.Valid
 import kotlin.collections.ArrayList
 
@@ -18,7 +22,7 @@ private val logger = KotlinLogging.logger {}
 class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping
-    fun getAllPlaces(): List<Place> = placeRepository.findAll()
+    fun getAllPlaces(): MutableList<Place> = placeRepository.findAll()
 
     @GetMapping("/{id}")
     fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {
@@ -77,5 +81,35 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         placeRepository.resetPrimaryKey()
         val response = placeRepository.deleteAll()
         return noContent().build()
+    }
+
+    //Firebase Image functionality
+    @PostMapping("/firebase/image")
+    fun uploadImageToFirebase(@RequestBody requestBody: ImageRequest, @RequestHeader(value = "FIREBASE_TOKEN") firebaseToken: String): Any {
+        //service token
+
+        // idToken comes from the HTTP Header
+        val decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(firebaseToken).get()
+        val uid = decodedToken.uid
+
+        // process the code here
+        // once it is done
+        logger.info { "uploadImageToFirebase : ${uid}" }
+
+        return uid
+
+    }
+
+    fun getUserIdFromIdToken(idToken: String): String? {
+        var userId: String? = null
+        try {
+            userId = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get().uid
+        } catch (e: InterruptedException) {
+            throw Exception("User Not Authenticated")
+        } catch (e: ExecutionException) {
+            throw Exception("User Not Authenticated")
+        }
+
+        return userId
     }
 }

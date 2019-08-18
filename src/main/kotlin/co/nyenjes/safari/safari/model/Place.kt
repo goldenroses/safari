@@ -12,5 +12,7 @@ class Place (
     val cardImage: String? = null,
     val imageUrl: String? = null,
     val content: String? = null,
-    val categoryId: Int? = null
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    val categoryId: Category? = null
 )
