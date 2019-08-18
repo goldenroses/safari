@@ -5,18 +5,18 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.amazonaws.services.s3.model.*
+import com.amazonaws.services.s3.model.Bucket
+import com.amazonaws.services.s3.model.GetObjectRequest
+import com.amazonaws.services.s3.model.ListObjectsRequest
+import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.google.gson.Gson
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import jdk.nashorn.internal.runtime.ScriptingFunctions.readLine
-import org.springframework.web.bind.annotation.PathVariable
-import java.io.InputStreamReader
 import java.io.BufferedReader
-import java.io.IOException
-import java.util.stream.Stream
+import java.io.InputStreamReader
 
 
 private val logger = KotlinLogging.logger {}
@@ -55,7 +55,6 @@ class AwsController {
         logger.debug {  "getContentType : ${s3object.getObjectMetadata().getContentType()}"}
 
         var reader = BufferedReader(InputStreamReader(s3object.getObjectContent(), "UTF-8"))
-
         val content = reader.readText()
 
        return Gson().toJson(content)
@@ -64,6 +63,16 @@ class AwsController {
     @GetMapping("/buckets/bucketName/{bucketName}/folderName/{folderName}")
     fun getImagesInFolder(@PathVariable bucketName: String,@PathVariable folderName: String): MutableSet<S3ObjectSummary> {
         val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName).withPrefix(folderName + "/")
+
+        val s3object = s3client.listObjects(listObjectsInBucket)
+        logger.debug {  "getContentType : ${s3object}"}
+
+        return s3object.objectSummaries.toMutableSet()
+    }
+
+    @GetMapping("/buckets/bucketName/{bucketName}")
+    fun getAllImagesInBucket(@PathVariable bucketName: String): MutableSet<S3ObjectSummary> {
+        val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName)
 
         val s3object = s3client.listObjects(listObjectsInBucket)
         logger.debug {  "getContentType : ${s3object}"}
