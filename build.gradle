@@ -40,7 +40,11 @@ dependencies {
     //thymeleaf
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf:2.1.7.RELEASE'
 
+    //aws
+    compile 'com.amazonaws:aws-java-sdk:1.11.613'
 
+    //firebase
+    compile 'com.google.firebase:firebase-admin:6.9.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

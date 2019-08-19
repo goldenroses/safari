@@ -7,6 +7,9 @@ tmp
 .cache
 dist
 bin
+src/main/resources/keys/
+src/main/resources/.DS_Store
+*.DS_Store
 build/*
 application.pid
 schema.sql
