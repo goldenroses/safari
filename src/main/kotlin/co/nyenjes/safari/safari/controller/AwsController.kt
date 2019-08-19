@@ -65,8 +65,7 @@ class AwsController {
         val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName).withPrefix(folderName + "/")
 
         val s3object = s3client.listObjects(listObjectsInBucket)
-        logger.debug {  "getContentType : ${s3object}"}
-
+        logger.debug {  "getImagesInFolder : ${s3object}"}
         return s3object.objectSummaries.toMutableSet()
     }
 
@@ -75,7 +74,7 @@ class AwsController {
         val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName)
 
         val s3object = s3client.listObjects(listObjectsInBucket)
-        logger.debug {  "getContentType : ${s3object}"}
+        logger.debug {  "getAllImagesInBucket : ${s3object}"}
 
         return s3object.objectSummaries.toMutableSet()
     }

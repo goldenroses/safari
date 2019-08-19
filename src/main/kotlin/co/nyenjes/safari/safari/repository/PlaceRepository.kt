@@ -1,5 +1,6 @@
 package co.nyenjes.safari.safari.repository
 
+import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -16,11 +17,21 @@ interface PlaceRepository: JpaRepository<Place, Long> {
 
     @Modifying
     @Transactional
+    @Query("update Place p set p.title = ?2, p.description = ?3, p.cardImage = ?4, p.content = ?5 where p.id = ?1")
+    fun updatePlace(id: Long?,
+                    title: String?,
+                    description: String?,
+                    cardImage: String?,
+                    content: String?
+    ): Int
+
+    @Modifying
+    @Transactional
     @Query("update Place p set p.imageUrl = ?2 where p.id = ?1")
-    fun updateImageUrlPlace(placeId: Long?, imageUrl: String?): Int
+    fun updateImageUrlPlace(id: Long?, imageUrl: String?): Int
 
     @Modifying
     @Transactional
     @Query("update Place p set p.cardImage = ?2 where p.id = ?1")
-    fun updateCardImageUrlPlace(placeId: Long?, imageUrl: String?): Int
+    fun updateCardImageUrlPlace(id: Long?, imageUrl: String?): Int
 }

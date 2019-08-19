@@ -39,6 +39,17 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ok(response)
     }
 
+    @PutMapping("/{id}")
+    fun updatePlace(@Valid @RequestBody request: Place, @PathVariable id: Long): ResponseEntity<Optional<Place>> {
+        val jsonRequest = Gson().toJson(request)
+        logger.info { "createPlace : ${jsonRequest}" }
+        val getPlace = placeRepository.findById(id)
+
+        val response = placeRepository.updatePlace(id, request.title, request.description, request.cardImage, request.content )
+        val getPlaceResponse = placeRepository.findById(id)
+        return ok(getPlaceResponse)
+    }
+
     @PutMapping("/{id}/imageUrl")
     fun updateImageUrlPlace(@Valid @RequestBody request: ImageRequest, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>> {
         logger.info { "updateImageUrlPlace : ${request}" }
@@ -50,10 +61,10 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         return ok(getPlaceResponse)
     }
 
-    @PutMapping("/{id}/card/imageUrl")
-    fun updateCardImagePlace(@Valid @RequestBody imageUrl: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>>? {
-        logger.info { "updateCardImagePlace : ${imageUrl}" }
-        val response = placeRepository.updateCardImageUrlPlace(id, imageUrl.trimIndent().replace("\n", "").replace("\\s+".toRegex(), " "))
+    @PutMapping("/{id}/card/bucketName")
+    fun updateCardImagePlace(@Valid @RequestBody bucketName: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>>? {
+        logger.info { "updateCardImagePlace : ${bucketName}" }
+        val response = placeRepository.updateCardImageUrlPlace(id, bucketName)
 
         val getPlaceResponse = placeRepository.findById(id)
         logger.info { "updateImageUrlPlace : response : ${getPlaceResponse}" }
