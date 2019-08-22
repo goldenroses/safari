@@ -52,7 +52,7 @@ class PlaceConfig {
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry?) {
-                registry!!.addMapping("/**").allowedOrigins("*")
+                registry!!.addMapping("/**").allowedOrigins("http://localhost:3000").allowedMethods("GET", "POST", "PUT", "DELETE")
             }
         }
     }

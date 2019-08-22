@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface PlaceRepository: JpaRepository<Place, Long> {
+
+    fun findAllByOrderByIdAsc(): MutableList<Place>
+
     @Modifying
     @Transactional
     @Query("ALTER TABLE place AUTO_INCREMENT=1", nativeQuery = true)

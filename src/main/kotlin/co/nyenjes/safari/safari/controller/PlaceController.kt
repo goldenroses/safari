@@ -22,7 +22,7 @@ private val logger = KotlinLogging.logger {}
 class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping
-    fun getAllPlaces(): MutableList<Place> = placeRepository.findAll()
+    fun getAllPlaces(): MutableList<Place> = placeRepository.findAllByOrderByIdAsc()
 
     @GetMapping("/{id}")
     fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {
@@ -42,8 +42,8 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     @PutMapping("/{id}")
     fun updatePlace(@Valid @RequestBody request: Place, @PathVariable id: Long): ResponseEntity<Optional<Place>> {
         val jsonRequest = Gson().toJson(request)
-        logger.info { "createPlace : ${jsonRequest}" }
         val getPlace = placeRepository.findById(id)
+        logger.info { "updatePlace : ${getPlace}" }
 
         val response = placeRepository.updatePlace(id, request.title, request.description, request.cardImage, request.content )
         val getPlaceResponse = placeRepository.findById(id)
@@ -51,7 +51,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     }
 
     @PutMapping("/{id}/imageUrl")
-    fun updateImageUrlPlace(@Valid @RequestBody request: ImageRequest, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>> {
+    fun updateImageUrlPlace(@Valid @RequestBody request: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>> {
         logger.info { "updateImageUrlPlace : ${request}" }
         val jsonRequest = Gson().toJson(request)
         val response = placeRepository.updateImageUrlPlace(id, jsonRequest)

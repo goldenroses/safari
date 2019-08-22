@@ -69,6 +69,15 @@ class AwsController {
         return s3object.objectSummaries.toMutableSet()
     }
 
+    @GetMapping("/buckets/bucketName/{bucketName}/folderName_1/{folderName_1}/folderName_2/{folderName_2}")
+    fun getImagesInFolderFolder(@PathVariable bucketName: String,@PathVariable folderName_1: String, @PathVariable folderName_2: String): MutableSet<S3ObjectSummary> {
+        val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName).withPrefix(folderName_1 + "/").withPrefix(folderName_2 + "/")
+
+        val s3object = s3client.listObjects(listObjectsInBucket)
+        logger.debug {  "getImagesInFolder : ${s3object}"}
+        return s3object.objectSummaries.toMutableSet()
+    }
+
     @GetMapping("/buckets/bucketName/{bucketName}")
     fun getAllImagesInBucket(@PathVariable bucketName: String): MutableSet<S3ObjectSummary> {
         val listObjectsInBucket = ListObjectsRequest().withBucketName(bucketName)
