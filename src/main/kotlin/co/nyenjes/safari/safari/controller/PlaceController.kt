@@ -53,8 +53,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     @PutMapping("/{id}/imageUrl")
     fun updateImageUrlPlace(@Valid @RequestBody request: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>> {
         logger.info { "updateImageUrlPlace : ${request}" }
-        val jsonRequest = Gson().toJson(request)
-        val response = placeRepository.updateImageUrlPlace(id, jsonRequest)
+        val response = placeRepository.updateImageUrlPlace(id, request)
         val getPlaceResponse = placeRepository.findById(id)
         logger.info { "updateImageUrlPlace : response : ${getPlaceResponse}" }
 
