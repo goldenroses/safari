@@ -1,13 +1,17 @@
 package co.nyenjes.safari.safari.model
 
 import javax.persistence.*
+import javax.persistence.CascadeType.*
 import javax.validation.constraints.NotBlank
+import javax.persistence.FetchType
+import javax.persistence.FetchType.*
+
 
 @Entity
 @Table(name = "place")
 class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
-    val title: String? = null,
+    var title: String? = null,
 
     @Column(columnDefinition="TEXT")
     val description: String? = null,
@@ -18,7 +22,7 @@ class Place (
     @Column(columnDefinition="TEXT")
     val content: String? = null,
 
-    @ManyToOne
+    @ManyToOne(cascade = [ALL], fetch = EAGER )
     @JoinColumn(name = "categoryId")
-    val category: Category? = null
+    var category: Category? = null
 )

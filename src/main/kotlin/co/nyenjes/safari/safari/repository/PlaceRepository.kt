@@ -18,16 +18,16 @@ interface PlaceRepository: JpaRepository<Place, Long> {
     @Query("ALTER TABLE place AUTO_INCREMENT=1", nativeQuery = true)
     fun resetPrimaryKey()
 
-    @Modifying
-    @Transactional
-    @Query("update Place p set p.title = ?2, p.description = ?3, p.cardImage = ?4, p.content = ?5, p.category = ?6 where p.id = ?1")
-    fun updatePlace(id: Long?,
-                    title: String?,
-                    description: String?,
-                    cardImage: String?,
-                    content: String?,
-                    category: Category?
-    ): Int
+//    @Modifying
+//    @Transactional
+//    @Query("update Place p set p.title = ?2, p.description = ?3, p.cardImage = ?4, p.content = ?5, p.category = ?6 where p.id = ?1")
+//    fun updatePlace(id: Long?,
+//                    title: String?,
+//                    description: String?,
+//                    cardImage: String?,
+//                    content: String?,
+//                    category: Category?
+//    ): Int
 
     @Modifying
     @Transactional
