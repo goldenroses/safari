@@ -45,7 +45,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         val getPlace = placeRepository.findById(id)
         logger.info { "updatePlace : ${getPlace}" }
 
-        val response = placeRepository.updatePlace(id, request.title, request.description, request.cardImage, request.content )
+        val response = placeRepository.updatePlace(id, request.title, request.description, request.cardImage, request.content, request.category )
         val getPlaceResponse = placeRepository.findById(id)
         return ok(getPlaceResponse)
     }
