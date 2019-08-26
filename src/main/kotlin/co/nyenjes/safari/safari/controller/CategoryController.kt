@@ -14,7 +14,7 @@ private val logger = KotlinLogging.logger {}
 class CategoryController(private val categoryRepository: CategoryRepository) {
 
     @GetMapping
-    fun getAllPlaces(): List<Category> = categoryRepository.findAll()
+    fun getAllPlaces(): List<Category> = categoryRepository.findAllByOrderByIdAsc()
 
     @PostMapping
     fun createCategory(@Valid @RequestBody request: Category): ResponseEntity<Category> {

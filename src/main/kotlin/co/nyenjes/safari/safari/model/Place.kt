@@ -8,11 +8,17 @@ import javax.validation.constraints.NotBlank
 class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
     val title: String? = null,
+
+    @Column(columnDefinition="TEXT")
     val description: String? = null,
+
     val cardImage: String? = null,
     val imageUrl: String? = null,
+
+    @Column(columnDefinition="TEXT")
     val content: String? = null,
+
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    val categoryId: Category? = null
+    @JoinColumn(name = "categoryId")
+    val category: Category? = null
 )
