@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 interface CategoryRepository: JpaRepository<Category, Long> {
     @Modifying
     @Transactional
-    @Query("ALTER TABLE category AUTO_INCREMENT=1", nativeQuery = true)
+    @Query("TRUNCATE TABLE category", nativeQuery = true)
     fun resetPrimaryKey()
 
     fun findAllByOrderByIdAsc(): MutableList<Category>

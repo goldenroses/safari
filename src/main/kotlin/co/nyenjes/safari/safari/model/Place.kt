@@ -1,24 +1,28 @@
 package co.nyenjes.safari.safari.model
 
 import javax.persistence.*
+import javax.persistence.CascadeType.*
 import javax.validation.constraints.NotBlank
+import javax.persistence.FetchType
+import javax.persistence.FetchType.*
+
 
 @Entity
 @Table(name = "place")
 class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
-    val title: String? = null,
+    var title: String? = null,
 
     @Column(columnDefinition="TEXT")
-    val description: String? = null,
+    var description: String? = null,
 
-    val cardImage: String? = null,
-    val imageUrl: String? = null,
+    var cardImage: String? = null,
+    var imageUrl: String? = null,
 
     @Column(columnDefinition="TEXT")
-    val content: String? = null,
+    var content: String? = null,
 
-    @ManyToOne
+    @ManyToOne(fetch = EAGER )
     @JoinColumn(name = "categoryId")
-    val category: Category? = null
+    var category: Category? = null
 )

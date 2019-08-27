@@ -1,11 +1,13 @@
 package co.nyenjes.safari.safari.controller
 
+import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import co.nyenjes.safari.safari.model.requests.ImageRequest
 import co.nyenjes.safari.safari.repository.PlaceRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import mu.KotlinLogging
+import org.json.JSONObject
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
 import org.springframework.http.ResponseEntity.ok
@@ -14,6 +16,9 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 import javax.validation.Valid
 import kotlin.collections.ArrayList
+import com.fasterxml.jackson.databind.ObjectMapper
+
+
 
 private val logger = KotlinLogging.logger {}
 
@@ -26,9 +31,12 @@ class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping("/{id}")
     fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {
-        return placeRepository.findById(id).map {place ->
+        val response = placeRepository.findById(id).map {place ->
             ResponseEntity.ok(place)
         }.orElse(ResponseEntity.notFound().build())
+
+        logger.info { "getPlaceById : ${response}" }
+        return response
     }
 
     @PostMapping
@@ -36,21 +44,54 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         val jsonRequest = Gson().toJson(request)
         logger.info { "createPlace : ${jsonRequest}" }
         val response = placeRepository.save(request)
+        logger.info { "createPlace : ${response}" }
         return ok(response)
     }
 
-    @PutMapping("/{id}")
-    fun updatePlace(@Valid @RequestBody request: Place, @PathVariable id: Long): ResponseEntity<Optional<Place>> {
+    @PatchMapping("/{id}")
+    fun updatePlace(@Valid @RequestBody request: Map<String, Any>, @PathVariable id: Long): ResponseEntity<Place>? {
         val jsonRequest = Gson().toJson(request)
         val getPlace = placeRepository.findById(id)
         logger.info { "updatePlace : ${getPlace}" }
+        var item = placeRepository.findById(id)
+        var updatedPlace = item.get()
+        var updatedPlaceJsonString = Gson().toJson(updatedPlace, Place::class.java)
+        var updatedPlaceEntity = Gson().fromJson(updatedPlaceJsonString, Place::class.java)
 
-        val response = placeRepository.updatePlace(id, request.title, request.description, request.cardImage, request.content, request.category )
-        val getPlaceResponse = placeRepository.findById(id)
-        return ok(getPlaceResponse)
+        if (request["title"] != null) {
+            updatedPlaceEntity.title = request["title"] as String
+        }
+        if (request["description"] != null) {
+            updatedPlaceEntity.description = request["description"] as String
+        }
+        if (request["cardImage"] != null) {
+            updatedPlaceEntity.cardImage = request["cardImage"] as String
+        }
+        if (request["imageUrl"] != null) {
+            updatedPlaceEntity.imageUrl = request["imageUrl"] as String
+        }
+        if (request["content"] != null) {
+            updatedPlaceEntity.content = request["content"] as String
+        }
+        if (request["category"] != null) {
+            val updatedCatJsonString = Gson().fromJson(request["category"].toString(), Category::class.java)
+
+            if (updatedCatJsonString.id != null) {
+                updatedPlaceEntity.category?.id = updatedCatJsonString.id
+            }
+            if (updatedCatJsonString.title != null) {
+                updatedPlaceEntity.category?.title = updatedCatJsonString.title
+            }
+            if (updatedCatJsonString.description != null) {
+                updatedPlaceEntity.category?.description = updatedCatJsonString.description
+            }
+        }
+        logger.info { "updatePlace : ${updatedPlaceEntity}" }
+
+        return ResponseEntity.ok().body(placeRepository.save(updatedPlaceEntity))
     }
 
-    @PutMapping("/{id}/imageUrl")
+    @PatchMapping("/{id}/imageUrl")
     fun updateImageUrlPlace(@Valid @RequestBody request: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>> {
         logger.info { "updateImageUrlPlace : ${request}" }
         val response = placeRepository.updateImageUrlPlace(id, request)
@@ -81,7 +122,6 @@ class PlaceController(private val placeRepository: PlaceRepository) {
             val response = placeRepository.save(place)
             responses.add(ok(response))
         }
-
         return responses
     }
 
