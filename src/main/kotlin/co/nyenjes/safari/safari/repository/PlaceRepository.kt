@@ -1,6 +1,5 @@
 package co.nyenjes.safari.safari.repository
 
-import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
