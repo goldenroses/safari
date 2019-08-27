@@ -12,7 +12,7 @@ src/main/resources/.DS_Store
 *.DS_Store
 build/*
 application.pid
-schema.sql
+V1_3__place_schema.sql
 .gradle/4.10.3/*
 .idea/*
 .gradle/*

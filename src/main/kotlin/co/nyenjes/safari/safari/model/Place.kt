@@ -23,6 +23,6 @@ class Place (
     var content: String? = null,
 
     @ManyToOne(fetch = EAGER )
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category_id")
     var category: Category? = null
 )
