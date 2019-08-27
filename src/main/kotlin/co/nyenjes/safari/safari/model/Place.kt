@@ -14,15 +14,15 @@ class Place (
     var title: String? = null,
 
     @Column(columnDefinition="TEXT")
-    val description: String? = null,
+    var description: String? = null,
 
-    val cardImage: String? = null,
-    val imageUrl: String? = null,
+    var cardImage: String? = null,
+    var imageUrl: String? = null,
 
     @Column(columnDefinition="TEXT")
-    val content: String? = null,
+    var content: String? = null,
 
-    @ManyToOne(cascade = [ALL], fetch = EAGER )
+    @ManyToOne(fetch = EAGER )
     @JoinColumn(name = "categoryId")
     var category: Category? = null
 )

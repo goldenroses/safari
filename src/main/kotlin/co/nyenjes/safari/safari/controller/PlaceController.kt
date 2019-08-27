@@ -16,6 +16,9 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 import javax.validation.Valid
 import kotlin.collections.ArrayList
+import com.fasterxml.jackson.databind.ObjectMapper
+
+
 
 private val logger = KotlinLogging.logger {}
 
@@ -59,21 +62,31 @@ class PlaceController(private val placeRepository: PlaceRepository) {
             updatedPlaceEntity.title = request["title"] as String
         }
         if (request["description"] != null) {
-            updatedPlaceEntity.title = request["description"] as String
+            updatedPlaceEntity.description = request["description"] as String
         }
         if (request["cardImage"] != null) {
-            updatedPlaceEntity.title = request["cardImage"] as String
+            updatedPlaceEntity.cardImage = request["cardImage"] as String
         }
         if (request["imageUrl"] != null) {
-            updatedPlaceEntity.title = request["imageUrl"] as String
+            updatedPlaceEntity.imageUrl = request["imageUrl"] as String
         }
         if (request["content"] != null) {
-            updatedPlaceEntity.title = request["content"] as String
+            updatedPlaceEntity.content = request["content"] as String
         }
         if (request["category"] != null) {
-            var updatedCategoryEntity = Gson().fromJson(request["category"].toString(), Category::class.java)
-            updatedPlaceEntity.category = updatedCategoryEntity
+            val updatedCatJsonString = Gson().fromJson(request["category"].toString(), Category::class.java)
+
+            if (updatedCatJsonString.id != null) {
+                updatedPlaceEntity.category?.id = updatedCatJsonString.id
+            }
+            if (updatedCatJsonString.title != null) {
+                updatedPlaceEntity.category?.title = updatedCatJsonString.title
+            }
+            if (updatedCatJsonString.description != null) {
+                updatedPlaceEntity.category?.description = updatedCatJsonString.description
+            }
         }
+        logger.info { "updatePlace : ${updatedPlaceEntity}" }
 
         return ResponseEntity.ok().body(placeRepository.save(updatedPlaceEntity))
     }
