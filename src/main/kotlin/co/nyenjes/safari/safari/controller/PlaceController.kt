@@ -105,6 +105,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     fun updateCardImagePlace(@Valid @RequestBody bucketName: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>>? {
         logger.info { "updateCardImagePlace : ${bucketName}" }
         val response = placeRepository.updateCardImageUrlPlace(id, bucketName)
+        logger.info { "updateImageUrlPlace : response : ${response}" }
 
         val getPlaceResponse = placeRepository.findById(id)
         logger.info { "updateImageUrlPlace : response : ${getPlaceResponse}" }
@@ -155,9 +156,9 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         try {
             userId = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get().uid
         } catch (e: InterruptedException) {
-            throw Exception("User Not Authenticated")
+            throw Exception("People Not Authenticated")
         } catch (e: ExecutionException) {
-            throw Exception("User Not Authenticated")
+            throw Exception("People Not Authenticated")
         }
 
         return userId

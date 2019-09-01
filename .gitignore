@@ -15,7 +15,6 @@ application.pid
 V1_3__place_schema.sql
 .gradle/4.10.3/*
 .idea/*
-.gradle/*
 /.idea
 /*.iml
 /out

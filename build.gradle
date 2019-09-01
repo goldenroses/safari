@@ -37,9 +37,7 @@ dependencies {
     //postgres
     compile 'org.postgresql:postgresql:42.2.6'
     compile "org.flywaydb:flyway-core:5.2.4"
-
-    //thymeleaf
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:2.1.7.RELEASE'
+    //runtime 'org.flywaydb:flyway-gradle-plugin:6.0.1'
 
     //aws
     compile 'com.amazonaws:aws-java-sdk:1.11.613'

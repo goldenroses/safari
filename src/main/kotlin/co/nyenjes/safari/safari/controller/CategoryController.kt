@@ -43,6 +43,7 @@ class CategoryController(private val categoryRepository: CategoryRepository) {
         logger.info { "purgeCategory" }
         categoryRepository.resetPrimaryKey()
         val response = categoryRepository.deleteAll()
+        logger.info { "purgeCategory : ${response}" }
         return ResponseEntity.noContent().build()
     }
 }

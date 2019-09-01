@@ -17,6 +17,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
+import org.flywaydb.core.Flyway
+
+
 
 private val logger = KotlinLogging.logger {}
 
@@ -29,10 +32,18 @@ class PlaceConfig {
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-        val dataSource = DataSourceBuilder.create().build()
+        val flyway = Flyway()
+        flyway.setDataSource(
+            System.getenv("SPRING_DATASOURCE_URL"),
+            System.getenv("SPRING_DATASOURCE_USERNAME"),
+            System.getenv("SPRING_DATASOURCE_PASSWORD")
+        )
+        flyway.migrate()
 
-//        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
-        return dataSource
+        val dataSource = DataSourceBuilder.create()
+
+        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
+        return ds
     }
 
     @Bean(name = arrayOf("safariEntityManagerFactory"))

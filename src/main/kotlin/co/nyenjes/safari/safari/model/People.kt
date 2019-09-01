@@ -5,8 +5,8 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "user")
-class User (
+@Table(name = "people")
+class People (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
     @JsonProperty("name") val name: String? = null,
     @JsonProperty("profile_image_url") val profileImageUrl: String? = null
