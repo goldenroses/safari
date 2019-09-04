@@ -7,7 +7,6 @@ import co.nyenjes.safari.safari.repository.PlaceRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import mu.KotlinLogging
-import org.json.JSONObject
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
 import org.springframework.http.ResponseEntity.ok
@@ -16,9 +15,6 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 import javax.validation.Valid
 import kotlin.collections.ArrayList
-import com.fasterxml.jackson.databind.ObjectMapper
-
-
 
 private val logger = KotlinLogging.logger {}
 
@@ -27,7 +23,11 @@ private val logger = KotlinLogging.logger {}
 class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping
-    fun getAllPlaces(): MutableList<Place> = placeRepository.findAllByOrderByIdAsc()
+    fun getAllPlaces(): MutableList<Place>{
+        var response = placeRepository.findAllByOrderByIdAsc()
+        logger.info { "getAllPlaces : ${response}" }
+        return response
+    }
 
     @GetMapping("/{id}")
     fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {

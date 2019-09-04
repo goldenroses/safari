@@ -19,8 +19,6 @@ import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 import org.flywaydb.core.Flyway
 
-
-
 private val logger = KotlinLogging.logger {}
 
 @Configuration
@@ -32,13 +30,13 @@ class PlaceConfig {
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-        val flyway = Flyway()
-        flyway.setDataSource(
-            System.getenv("SPRING_DATASOURCE_URL"),
-            System.getenv("SPRING_DATASOURCE_USERNAME"),
-            System.getenv("SPRING_DATASOURCE_PASSWORD")
-        )
-        flyway.migrate()
+//        val flyway = Flyway()
+//        flyway.setDataSource(
+//            System.getenv("SPRING_DATASOURCE_URL"),
+//            System.getenv("SPRING_DATASOURCE_USERNAME"),
+//            System.getenv("SPRING_DATASOURCE_PASSWORD")
+//        )
+//        flyway.migrate()
 
         val dataSource = DataSourceBuilder.create()
 
