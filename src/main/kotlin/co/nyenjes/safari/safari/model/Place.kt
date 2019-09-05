@@ -1,6 +1,6 @@
 package co.nyenjes.safari.safari.model
-
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 import javax.persistence.FetchType.EAGER
@@ -27,14 +27,17 @@ class Place (
     @JsonProperty("content")
     var content: String? = null,
 
+    var categoryId: Int? = null,
+
+    var reviewId: Int? = null,
+
     @ManyToOne(fetch = EAGER )
     @JoinColumn(name = "category_id")
-    @JsonProperty("category_id")
-    var category: Category? = null
+    @JsonProperty("category")
+    var category: Category? = null,
 
-//    @JsonManagedReference
-//    @OneToMany(fetch = EAGER )
-//    @JoinColumn(name = "review_id")
-//    @JsonProperty("review_id")
-//    var review: Set<Review>? = HashSet<Review>()
+    @OneToMany(fetch = EAGER )
+    @JoinColumn(name = "review_id")
+    @JsonProperty("review")
+    var review: Set<Review>? = HashSet<Review>() as Set<Review>?
 )

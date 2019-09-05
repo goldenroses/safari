@@ -11,10 +11,10 @@ class Category(
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id: Long = 0,
     var title: String? = null,
 
-    var description: String? = null,
+    var description: String? = null
 
-    @OneToMany(fetch = EAGER )
-    @JoinColumn(name = "person_id")
-    @JsonProperty("person_id")
-    var people: Set<People>? = HashSet<People>()
+//    @OneToMany(fetch = EAGER )
+//    @JoinColumn(name = "person_id")
+//    @JsonProperty("person_id")
+//    var people: Set<People>? = HashSet<People>()
 )

@@ -1,0 +1,6 @@
+ALTER TABLE place
+ADD CONSTRAINT review_id
+  FOREIGN KEY (review_id)
+  REFERENCES review (id)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
