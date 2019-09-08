@@ -15,7 +15,17 @@ private val logger = KotlinLogging.logger {}
 class ReviewController(private val reviewRepository: ReviewRepository) {
 
     @GetMapping
-    fun getAllPlaces(): List<Review> = reviewRepository.findAllByOrderByIdAsc()
+    fun getAllReviews(): List<Review> = reviewRepository.findAllByOrderByIdAsc()
+
+    @GetMapping("/{id}")
+    fun getReviewById(@PathVariable id: Long): ResponseEntity<Review> {
+        val response = reviewRepository.findById(id).map {place ->
+            ResponseEntity.ok(place)
+        }.orElse(ResponseEntity.notFound().build())
+
+        logger.info { "getReviewById : ${response}" }
+        return response
+    }
 
     @PostMapping
     fun createReview(@Valid @RequestBody request: Review): ResponseEntity<Review> {

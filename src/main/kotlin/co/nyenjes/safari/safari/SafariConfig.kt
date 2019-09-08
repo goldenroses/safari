@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
-import org.flywaydb.core.Flyway
+//import org.flywaydb.core.Flyway
 
 private val logger = KotlinLogging.logger {}
 
