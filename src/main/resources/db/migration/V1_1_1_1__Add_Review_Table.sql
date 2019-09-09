@@ -6,3 +6,4 @@ CREATE TABLE review (
   person_id bigint DEFAULT NULL,
   place_id bigint DEFAULT NULL
 );
+ALTER SEQUENCE review_id_seq OWNED BY review.id;

@@ -52,7 +52,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     fun updatePlace(@Valid @RequestBody request: Map<String, Any>, @PathVariable id: Long): ResponseEntity<Place>? {
         val jsonRequest = Gson().toJson(request)
         val getPlace = placeRepository.findById(id)
-        logger.info { "updatePlace : ${getPlace}" }
+        logger.info { "updatePlace : ${jsonRequest}" }
         var item = placeRepository.findById(id)
         var updatedPlace = item.get()
         var updatedPlaceJsonString = Gson().toJson(updatedPlace, Place::class.java)
@@ -73,11 +73,16 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         if (request["content"] != null) {
             updatedPlaceEntity.content = request["content"] as String
         }
-        if (request["category"] != null) {
-            val updatedCatJsonString = Gson().fromJson(request["category"].toString(), Category::class.java)
+        if (request["category_id"] != null) {
+            val updatedCatJson = Gson().toJson(request["category_id"])
+            val updatedCatJsonString = Gson().fromJson(updatedCatJson, Category::class.java)
+
+            logger.info { "request -- category : ${request["category_id"]} \n\n" }
+            logger.info { "updatedCatJsonString : ${updatedCatJsonString} \n\n" }
 
             if (updatedCatJsonString.id != null) {
                 updatedPlaceEntity.category?.id = updatedCatJsonString.id
+                logger.info { "updatedCatJsonString : ${updatedCatJsonString.id} \n\n" }
             }
             if (updatedCatJsonString.title != null) {
                 updatedPlaceEntity.category?.title = updatedCatJsonString.title

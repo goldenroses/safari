@@ -4,3 +4,4 @@ CREATE TABLE category (
   description CHAR(300) DEFAULT NULL,
   title CHAR(255) DEFAULT NULL
 );
+ALTER SEQUENCE category_id_seq OWNED BY category.id;

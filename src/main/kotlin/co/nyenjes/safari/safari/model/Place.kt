@@ -8,7 +8,7 @@ import javax.swing.text.Position.Bias.Forward
 
 
 @Entity
-@Table(name = "place", schema = "safari")
+@Table(name = "place")
 class Place (
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id : Long = 0,
     var title: String? = null,

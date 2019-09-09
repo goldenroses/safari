@@ -8,3 +8,4 @@ CREATE TABLE people (
   review_id bigint DEFAULT NULL,
   service_type_id bigint DEFAULT NULL
 );
+ALTER SEQUENCE people_id_seq OWNED BY people.id;

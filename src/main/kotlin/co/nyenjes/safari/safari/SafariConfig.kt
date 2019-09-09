@@ -70,7 +70,7 @@ class PlaceConfig {
                 registry!!.addMapping("/**").allowedOrigins(
                     "http://localhost:3000",
                     "https://safari-web.firebaseapp.com"
-                    ).allowedMethods("GET", "POST", "PUT", "DELETE")
+                    ).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
             }
         }
     }
