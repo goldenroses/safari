@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 interface ReviewRepository: JpaRepository<Review, Long> {
     @Modifying
     @Transactional
-    @Query("TRUNCATE TABLE review", nativeQuery = true)
+    //Does not work in production
+    @Query("TRUNCATE TABLE safari.review CASCADE", nativeQuery = true)
     fun resetPrimaryKey()
 
     fun findAllByOrderByIdAsc(): MutableList<Review>

@@ -1,7 +1,9 @@
 package co.nyenjes.safari.safari
 
 import mu.KotlinLogging
+import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
@@ -17,7 +19,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
-//import org.flywaydb.core.Flyway
 
 private val logger = KotlinLogging.logger {}
 
@@ -26,17 +27,22 @@ private val logger = KotlinLogging.logger {}
 @EnableTransactionManagement
 @EnableJpaRepositories(transactionManagerRef = "safariTransactionManager", basePackages = arrayOf("co.nyenjes.safari.safari.repository"), entityManagerFactoryRef = "safariEntityManagerFactory")
 class PlaceConfig {
+    @Value("\${environment}")
+    private val env: String? = null
 
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-//        val flyway = Flyway()
-//        flyway.setDataSource(
-//            System.getenv("SPRING_DATASOURCE_URL"),
-//            System.getenv("SPRING_DATASOURCE_USERNAME"),
-//            System.getenv("SPRING_DATASOURCE_PASSWORD")
-//        )
-//        flyway.migrate()
+
+        if (System.getenv("SPRING_PROFILES_ACTIVE") == "prod") {
+            val flyway = Flyway()
+            flyway.setDataSource(
+                System.getenv("SPRING_DATASOURCE_URL"),
+                System.getenv("SPRING_DATASOURCE_USERNAME"),
+                System.getenv("SPRING_DATASOURCE_PASSWORD")
+            )
+            flyway.migrate()
+        }
 
         val dataSource = DataSourceBuilder.create()
 

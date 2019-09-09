@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 interface CategoryRepository: JpaRepository<Category, Long> {
     @Modifying
     @Transactional
-    @Query("TRUNCATE TABLE category", nativeQuery = true)
+    //Does not work in production
+    @Query("TRUNCATE TABLE safari.category CASCADE", nativeQuery = true)
     fun resetPrimaryKey()
 
     fun findAllByOrderByIdAsc(): MutableList<Category>

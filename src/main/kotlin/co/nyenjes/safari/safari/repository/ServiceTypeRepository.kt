@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 interface ServiceTypeRepository: JpaRepository<ServiceType, Long> {
     @Modifying
     @Transactional
-    @Query("TRUNCATE TABLE service_type", nativeQuery = true)
+    //Does not work in production
+    @Query("TRUNCATE TABLE safari.service_type CASCADE", nativeQuery = true)
     fun resetPrimaryKey()
 
     fun findAllByOrderByIdAsc(): MutableList<ServiceType>

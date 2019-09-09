@@ -14,7 +14,8 @@ interface PlaceRepository: JpaRepository<Place, Long> {
 
     @Modifying
     @Transactional
-    @Query("TRUNCATE TABLE place", nativeQuery = true)
+    //Does not work in production
+    @Query("TRUNCATE TABLE safari.place CASCADE", nativeQuery = true)
     fun resetPrimaryKey()
 
     @Modifying
