@@ -1,6 +1,5 @@
 package co.nyenjes.safari.safari.controller
 
-import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import co.nyenjes.safari.safari.model.requests.ImageRequest
 import co.nyenjes.safari.safari.repository.PlaceRepository
@@ -74,21 +73,13 @@ class PlaceController(private val placeRepository: PlaceRepository) {
             updatedPlaceEntity.content = request["content"] as String
         }
         if (request["category_id"] != null) {
-            val updatedCatJson = Gson().toJson(request["category_id"])
-            val updatedCatJsonString = Gson().fromJson(updatedCatJson, Category::class.java)
+            val requestId =  request["category_id"].toString().toLong()
 
             logger.info { "request -- category : ${request["category_id"]} \n\n" }
-            logger.info { "updatedCatJsonString : ${updatedCatJsonString} \n\n" }
 
-            if (updatedCatJsonString.id != null) {
-                updatedPlaceEntity.category?.id = updatedCatJsonString.id
-                logger.info { "updatedCatJsonString : ${updatedCatJsonString.id} \n\n" }
-            }
-            if (updatedCatJsonString.title != null) {
-                updatedPlaceEntity.category?.title = updatedCatJsonString.title
-            }
-            if (updatedCatJsonString.description != null) {
-                updatedPlaceEntity.category?.description = updatedCatJsonString.description
+            if (requestId != null) {
+                updatedPlaceEntity.category?.id = requestId
+                logger.info { "category_id : ${requestId} \n\n" }
             }
         }
         logger.info { "updatePlace : ${updatedPlaceEntity}" }
