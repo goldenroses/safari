@@ -5,8 +5,8 @@ import javax.persistence.FetchType.EAGER
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "category")
-class Category(
+@Table(name = "service_type")
+class ServiceType(
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id @NotBlank @Column(name = "id") var id: Long = 0,
     var title: String? = null,
 

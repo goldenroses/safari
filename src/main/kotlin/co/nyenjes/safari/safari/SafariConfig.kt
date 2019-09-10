@@ -1,7 +1,9 @@
 package co.nyenjes.safari.safari
 
 import mu.KotlinLogging
+import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
@@ -25,14 +27,27 @@ private val logger = KotlinLogging.logger {}
 @EnableTransactionManagement
 @EnableJpaRepositories(transactionManagerRef = "safariTransactionManager", basePackages = arrayOf("co.nyenjes.safari.safari.repository"), entityManagerFactoryRef = "safariEntityManagerFactory")
 class PlaceConfig {
+    @Value("\${environment}")
+    private val env: String? = null
 
     @Bean(name = arrayOf("safariDataSource"))
     @ConfigurationProperties(prefix = "safari.datasource")
     fun dataSource(): DataSource {
-        val dataSource = DataSourceBuilder.create().build()
 
-//        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
-        return dataSource
+        if (System.getenv("SPRING_PROFILES_ACTIVE") == "prod") {
+            val flyway = Flyway()
+            flyway.setDataSource(
+                System.getenv("SPRING_DATASOURCE_URL"),
+                System.getenv("SPRING_DATASOURCE_USERNAME"),
+                System.getenv("SPRING_DATASOURCE_PASSWORD")
+            )
+            flyway.migrate()
+        }
+
+        val dataSource = DataSourceBuilder.create()
+
+        val ds = dataSource.driverClassName("org.postgresql.Driver").build()
+        return ds
     }
 
     @Bean(name = arrayOf("safariEntityManagerFactory"))
@@ -55,7 +70,7 @@ class PlaceConfig {
                 registry!!.addMapping("/**").allowedOrigins(
                     "http://localhost:3000",
                     "https://safari-web.firebaseapp.com"
-                    ).allowedMethods("GET", "POST", "PUT", "DELETE")
+                    ).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
             }
         }
     }

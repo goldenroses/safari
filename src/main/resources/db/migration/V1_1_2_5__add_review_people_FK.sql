@@ -1,0 +1,6 @@
+ALTER TABLE review
+ADD CONSTRAINT person_id
+  FOREIGN KEY (person_id)
+  REFERENCES people (id)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

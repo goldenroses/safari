@@ -1,13 +1,11 @@
 package co.nyenjes.safari.safari.controller
 
-import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import co.nyenjes.safari.safari.model.requests.ImageRequest
 import co.nyenjes.safari.safari.repository.PlaceRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import mu.KotlinLogging
-import org.json.JSONObject
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
 import org.springframework.http.ResponseEntity.ok
@@ -16,9 +14,6 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 import javax.validation.Valid
 import kotlin.collections.ArrayList
-import com.fasterxml.jackson.databind.ObjectMapper
-
-
 
 private val logger = KotlinLogging.logger {}
 
@@ -27,7 +22,11 @@ private val logger = KotlinLogging.logger {}
 class PlaceController(private val placeRepository: PlaceRepository) {
 
     @GetMapping
-    fun getAllPlaces(): MutableList<Place> = placeRepository.findAllByOrderByIdAsc()
+    fun getAllPlaces(): MutableList<Place>{
+        var response = placeRepository.findAllByOrderByIdAsc()
+        logger.info { "getAllPlaces : ${response}" }
+        return response
+    }
 
     @GetMapping("/{id}")
     fun getPlaceById(@PathVariable id: Long): ResponseEntity<Place> {
@@ -52,7 +51,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     fun updatePlace(@Valid @RequestBody request: Map<String, Any>, @PathVariable id: Long): ResponseEntity<Place>? {
         val jsonRequest = Gson().toJson(request)
         val getPlace = placeRepository.findById(id)
-        logger.info { "updatePlace : ${getPlace}" }
+        logger.info { "updatePlace : ${jsonRequest}" }
         var item = placeRepository.findById(id)
         var updatedPlace = item.get()
         var updatedPlaceJsonString = Gson().toJson(updatedPlace, Place::class.java)
@@ -73,17 +72,14 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         if (request["content"] != null) {
             updatedPlaceEntity.content = request["content"] as String
         }
-        if (request["category"] != null) {
-            val updatedCatJsonString = Gson().fromJson(request["category"].toString(), Category::class.java)
+        if (request["category_id"] != null) {
+            val requestId =  request["category_id"].toString().toLong()
 
-            if (updatedCatJsonString.id != null) {
-                updatedPlaceEntity.category?.id = updatedCatJsonString.id
-            }
-            if (updatedCatJsonString.title != null) {
-                updatedPlaceEntity.category?.title = updatedCatJsonString.title
-            }
-            if (updatedCatJsonString.description != null) {
-                updatedPlaceEntity.category?.description = updatedCatJsonString.description
+            logger.info { "request -- category : ${request["category_id"]} \n\n" }
+
+            if (requestId != null) {
+                updatedPlaceEntity.category?.id = requestId
+                logger.info { "category_id : ${requestId} \n\n" }
             }
         }
         logger.info { "updatePlace : ${updatedPlaceEntity}" }
@@ -105,6 +101,7 @@ class PlaceController(private val placeRepository: PlaceRepository) {
     fun updateCardImagePlace(@Valid @RequestBody bucketName: String, @PathVariable(value = "id") id: Long): ResponseEntity<Optional<Place>>? {
         logger.info { "updateCardImagePlace : ${bucketName}" }
         val response = placeRepository.updateCardImageUrlPlace(id, bucketName)
+        logger.info { "updateImageUrlPlace : response : ${response}" }
 
         val getPlaceResponse = placeRepository.findById(id)
         logger.info { "updateImageUrlPlace : response : ${getPlaceResponse}" }
@@ -155,9 +152,9 @@ class PlaceController(private val placeRepository: PlaceRepository) {
         try {
             userId = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get().uid
         } catch (e: InterruptedException) {
-            throw Exception("User Not Authenticated")
+            throw Exception("People Not Authenticated")
         } catch (e: ExecutionException) {
-            throw Exception("User Not Authenticated")
+            throw Exception("People Not Authenticated")
         }
 
         return userId

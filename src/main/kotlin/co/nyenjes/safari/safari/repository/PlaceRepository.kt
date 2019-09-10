@@ -1,6 +1,5 @@
 package co.nyenjes.safari.safari.repository
 
-import co.nyenjes.safari.safari.model.Category
 import co.nyenjes.safari.safari.model.Place
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -15,7 +14,8 @@ interface PlaceRepository: JpaRepository<Place, Long> {
 
     @Modifying
     @Transactional
-    @Query("TRUNCATE TABLE place", nativeQuery = true)
+    //Does not work in production
+    @Query("TRUNCATE TABLE safari.place CASCADE", nativeQuery = true)
     fun resetPrimaryKey()
 
     @Modifying
