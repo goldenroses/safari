@@ -38,6 +38,27 @@ class CategoryController(private val categoryRepository: CategoryRepository) {
         return responses
     }
 
+    @PatchMapping("/{id}")
+    fun updateCategory(@Valid @RequestBody request: Map<String, Any>, @PathVariable id: Long): ResponseEntity<Category>? {
+        val jsonRequest = Gson().toJson(request)
+        val getPlace = categoryRepository.findById(id)
+        logger.info { "updatePlace : ${jsonRequest}" }
+        var item = categoryRepository.findById(id)
+        var updatedCategory = item.get()
+        var updatedCategoryJsonString = Gson().toJson(updatedCategory, Category::class.java)
+        var updatedCategoryEntity = Gson().fromJson(updatedCategoryJsonString, Category::class.java)
+
+        if (request["title"] != null) {
+            updatedCategoryEntity.title = request["title"] as String
+        }
+        if (request["description"] != null) {
+            updatedCategoryEntity.description = request["description"] as String
+        }
+        logger.info { "updatePlace : ${updatedCategoryEntity}" }
+
+        return ResponseEntity.ok().body(categoryRepository.save(updatedCategoryEntity))
+    }
+
     @DeleteMapping
     fun purgeCategory(): ResponseEntity<Unit> {
         logger.info { "purgeCategory" }

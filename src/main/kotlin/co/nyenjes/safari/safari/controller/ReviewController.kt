@@ -27,6 +27,14 @@ class ReviewController(private val reviewRepository: ReviewRepository) {
         return response
     }
 
+    @GetMapping("/place_id/{placeId}")
+    fun getReviewByPlaceId(@PathVariable placeId: Long): MutableList<Review> {
+        val response = reviewRepository.getReviewByPlaceId(placeId)
+
+        logger.info { "getReviewByPlaceId : ${response}" }
+        return response
+    }
+
     @PostMapping
     fun createReview(@Valid @RequestBody request: Review): ResponseEntity<Review> {
         val jsonRequest = Gson().toJson(request)
