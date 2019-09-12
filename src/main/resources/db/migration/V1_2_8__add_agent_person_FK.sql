@@ -1,0 +1,6 @@
+ALTER TABLE agent
+ADD CONSTRAINT person_id
+  FOREIGN KEY (person_id)
+  REFERENCES person (id)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

@@ -1,2 +1,2 @@
-INSERT INTO agent (rating,title,introduction,person_id,category_id, place_id) VALUES (4,'Love this place','great beach view',2, 4);
-INSERT INTO agent (rating,title,introduction,person_id,category_id,place_id) VALUES (1,'Sucks!','Too many mosquitos',1, 4);
+INSERT INTO agent(title,introduction,person_id,category_id, review_id) VALUES ('Ready to Serve','I am open to travel anywhere in Kenya',2, 4,2);
+INSERT INTO agent(title,introduction,person_id,category_id,review_id) VALUES ('Outdoor person','Always looking for outdoor gigs',1, 4,1);

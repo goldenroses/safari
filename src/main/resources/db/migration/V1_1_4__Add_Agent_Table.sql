@@ -5,6 +5,6 @@ CREATE TABLE agent (
   introduction bigint DEFAULT NULL,
   category_id bigint DEFAULT NULL,
   person_id bigint DEFAULT NULL,
-  place_id bigint DEFAULT NULL
+  review_id bigint DEFAULT NULL
 );
 ALTER SEQUENCE agent_id_seq OWNED BY agent.id;
