@@ -16,4 +16,7 @@ interface ReviewRepository: JpaRepository<Review, Long> {
     fun resetPrimaryKey()
 
     fun findAllByOrderByIdAsc(): MutableList<Review>
+
+    fun getReviewByPlaceId(id: Long): MutableList<Review>
+
 }

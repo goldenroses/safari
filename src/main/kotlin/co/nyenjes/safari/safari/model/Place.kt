@@ -23,10 +23,6 @@ class Place (
     @Column(columnDefinition="text")
     var content: String? = null,
 
-    var categoryId: Int? = null,
-
-    var reviewId: Int? = null,
-
     @ManyToOne(fetch = EAGER )
     @JoinColumn(name = "category_id")
     var category: Category? = null,
