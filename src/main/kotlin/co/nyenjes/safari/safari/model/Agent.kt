@@ -1,11 +1,7 @@
 package co.nyenjes.safari.safari.model
-import com.fasterxml.jackson.annotation.*
 import javax.persistence.*
 import javax.persistence.FetchType.EAGER
 import javax.validation.constraints.NotBlank
-import javax.swing.text.Position.Bias.Forward
-
-
 
 @Entity
 @Table(name = "agent")
@@ -14,6 +10,7 @@ class Agent (
     var title: String? = null,
 
     @Column(columnDefinition="text")
+    @JoinColumn(name = "introduction")
     var introduction: String? = null,
 
     @OneToOne(fetch = EAGER)
